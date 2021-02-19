@@ -2,8 +2,9 @@
 // XMOS Public License: Version 1
 #include "model_runner.h"
 
-#include "tensorflow/lite/micro/kernels/xcore/xcore_dispatcher.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_interpreter.h"
+#include "tensorflow/lite/micro/kernels/xcore/xcore_memload.h"
+#include "tensorflow/lite/micro/kernels/xcore/xcore_metal_dispatcher.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_profiler.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/version.h"
@@ -14,15 +15,19 @@ typedef tflite::MicroAllocator micro_allocator_t;
 typedef tflite::MicroErrorReporter error_reporter_t;
 typedef tflite::micro::xcore::XCoreInterpreter interpreter_t;
 typedef tflite::micro::xcore::XCoreProfiler profiler_t;
+typedef tflite::ops::micro::xcore::MetalDispatcher dispatcher_t;
 typedef tflite::TestOpsResolver resolver_t;
 typedef tflite::Model model_t;
 
 // static variables
 static error_reporter_t error_reporter_s;
-static error_reporter_t *reporter = nullptr;
 static resolver_t resolver_s;
-static resolver_t *resolver = nullptr;
 static profiler_t profiler_s;
+static dispatcher_t dispatcher_s;
+
+static error_reporter_t *reporter = nullptr;
+static resolver_t *resolver = nullptr;
+static dispatcher_t *dispatcher = nullptr;
 static profiler_t *profiler = nullptr;
 static interpreter_t *interpreter = nullptr;
 static const model_t *model = nullptr;
@@ -105,7 +110,7 @@ ModelRunnerStatus model_runner_init(uint8_t *model_content,
   // Build an interpreter to run the model with
   interpreter = new (interpreter_buffer)
       interpreter_t(model, *resolver, tensor_arena, tensor_arena_size, reporter,
-                    true, profiler);
+                    dispatcher, profiler);
 
   // Allocate memory from the tensor_arena for the model's tensors.
   TfLiteStatus allocate_tensors_status = interpreter->AllocateTensors();

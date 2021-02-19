@@ -33,6 +33,7 @@ target_link_libraries(libxcore_interpreters stdc++ m pthread)
 set(ADDITIONAL_TENSORFLOW_SORCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/ethosu.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/all_ops_resolver.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_host_dispatcher.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_extended_interpreter.cc"
 )
 

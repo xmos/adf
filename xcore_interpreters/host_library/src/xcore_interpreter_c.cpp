@@ -1,6 +1,7 @@
 // Copyright 2021 XMOS LIMITED. This Software is subject to the terms of the
 // XMOS Public License: Version 1
 #include "tensorflow/lite/micro/all_ops_resolver.h"
+#include "tensorflow/lite/micro/kernels/xcore/xcore_host_dispatcher.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_extended_interpreter.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_ops.h"
 #include "tensorflow/lite/micro/recording_micro_allocator.h"
@@ -22,6 +23,7 @@ typedef struct ExtendedXCoreInterpreterContext {
   uint8_t* tensor_arena;
   size_t tensor_arena_size;
   tflite::RecordingMicroAllocator* allocator;
+  tflite::ops::micro::xcore::HostDispatcher* dispatcher;
   tflite::micro::xcore::ExtendedXCoreInterpreter* interpreter;
 } ExtendedXCoreInterpreterState;
 
@@ -35,6 +37,7 @@ ExtendedXCoreInterpreterContext* new_interpreter() {
   ctx->tensor_arena = nullptr;
   ctx->allocator = nullptr;  // NOTE: the allocator is created in the arena so
                              // it does not need to be deleted
+  ctx->dispatcher = nullptr;
   ctx->interpreter = nullptr;
   return ctx;
 }
@@ -42,8 +45,9 @@ ExtendedXCoreInterpreterContext* new_interpreter() {
 void delete_interpreter(ExtendedXCoreInterpreterContext* ctx) {
   if (ctx->interpreter)
     delete ctx->interpreter;  // NOTE: interpreter must be deleted before
-                              // resolver, reporter, tensor_arena
+                              // dispatcher, resolver, reporter, tensor_arena
                               // and model_buffer
+  if (ctx->dispatcher) delete ctx->dispatcher;
   if (ctx->resolver) delete ctx->resolver;
   if (ctx->reporter) delete ctx->reporter;
   if (ctx->tensor_arena) delete[] ctx->tensor_arena;
@@ -122,10 +126,12 @@ int initialize(ExtendedXCoreInterpreterContext* ctx, const char* model_content,
   ctx->allocator = tflite::RecordingMicroAllocator::Create(
       ctx->tensor_arena, tensor_arena_size, ctx->reporter);
 
+  ctx->dispatcher = new tflite::ops::micro::xcore::HostDispatcher();
+
   // Build an interpreter to run the model with.
   ctx->interpreter = new tflite::micro::xcore::ExtendedXCoreInterpreter(
       ctx->model, *ctx->resolver, ctx->allocator,
-      reinterpret_cast<tflite::ErrorReporter*>(ctx->reporter));
+      reinterpret_cast<tflite::ErrorReporter*>(ctx->reporter), ctx->dispatcher);
 
   return kTfLiteOk;
 }

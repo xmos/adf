@@ -67,6 +67,7 @@ target_sources(xcore_interpreter_xscope
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main_xscope.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_metal_dispatcher.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc"
 )
 
@@ -75,6 +76,7 @@ target_sources(xcore_interpreter_cmdline
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main_cmdline.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_metal_dispatcher.cc"
 )
 
 target_include_directories(xcore_interpreter_xscope
