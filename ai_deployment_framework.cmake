@@ -15,8 +15,6 @@ set(LIB_NN_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/lib_nn")
 set(LIB_NN_ALT_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/lib_nn/lib_nn/api")
 set(LIB_NN_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/lib_nn")
 
-set(MODEL_RUNNER_DIR "${CMAKE_CURRENT_LIST_DIR}/model_runner")
-
 #********************************
 # TensorFlow Lite Micro sources
 #********************************
@@ -169,32 +167,6 @@ set(XCORE_INTERPRETER_INCLUDES
 
 list(REMOVE_DUPLICATES XCORE_INTERPRETER_SOURCES)
 list(REMOVE_DUPLICATES XCORE_INTERPRETER_INCLUDES)
-
-#**************************************
-# set MODEL_RUNNER user variables
-#**************************************
-
-set(MODEL_RUNNER_SOURCES
-    ${TENSORFLOW_LITE_RUNTIME_SOURCES}
-    ${TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES}
-    ${TENSORFLOW_LITE_XCORE_OPERATOR_SOURCES}
-    ${LIB_NN_SOURCES_C}
-    ${LIB_NN_SOURCES_ASM}
-    "${MODEL_RUNNER_DIR}/src/model_runner.cc"
-)
-
-set(MODEL_RUNNER_INCLUDES
-  ${FLATBUFFERS_INCLUDE_DIR}
-  ${GEMMLOWP_INCLUDE_DIR}
-  ${RUY_INCLUDE_DIR}
-  ${TENSORFLOW_INCLUDE_DIR}
-  ${LIB_NN_ALT_INCLUDE_DIR}
-  ${LIB_NN_INCLUDE_DIR}
-  "${MODEL_RUNNER_DIR}/api"
-)
-
-list(REMOVE_DUPLICATES MODEL_RUNNER_SOURCES)
-list(REMOVE_DUPLICATES MODEL_RUNNER_INCLUDES)
 
 #***************************
 # set source file properties
