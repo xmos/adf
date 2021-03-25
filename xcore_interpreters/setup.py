@@ -12,15 +12,14 @@ LIB_XCORE_INTERPRETERS = [
 EXCLUDES = ["*tests", "*tests.*", "cmake", "python_bindings", "xcore_firmware"]
 
 INSTALL_REQUIRES = [
-    "numpy==1.19.5",
-    "portalocker==2.0.0",
-    "typing-extensions==3.7.4",
+    "numpy",
+    "portalocker",
 ]
 
 setuptools.setup(
     name="xcore_interpreters",
     packages=setuptools.find_packages(exclude=EXCLUDES),
-    python_requires=">=3.6.8",
+    python_requires=">=3.8.0",
     install_requires=INSTALL_REQUIRES,
     package_data={"": LIB_XCORE_INTERPRETERS},
     author="XMOS",
