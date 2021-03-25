@@ -49,9 +49,9 @@ pipeline {
                 ])
                 // create venv and install pip packages
                 sh """conda env create -q -p adf_venv -f environment.yml &&
-                      conda activate ./adf_venv &&
+                      . activate ./adf_venv &&
                       pip install -e "./xcore_interpreters[test]" &&
-                      conda deactivate"""
+                      . deactivate"""
                 // Install xmos tools version
                 sh "/XMOS/get_tools.py " + params.TOOLS_VERSION
             }

@@ -13,7 +13,7 @@ EXCLUDES = ["*tests", "*tests.*", "cmake", "python_bindings", "xcore_firmware"]
 
 INSTALL_REQUIRES = [
     "numpy<2.0",
-    "portalocker>=2.0.0",
+    "portalocker==2.0.0",
 ]
 
 setuptools.setup(
