@@ -20,10 +20,6 @@ xcore_interpreters_unit_test:
 xcore_interpreters_dist:
 	cd xcore_interpreters && bash build_dist.sh
 
-.PHONY: xcore_interpreters_dist_test
-xcore_interpreters_dist_test:
-	cd xcore_interpreters && bash test_dist.sh
-
 #**************************
 # ci target
 #**************************
@@ -31,8 +27,7 @@ xcore_interpreters_dist_test:
 .PHONY: ci 
 ci: CLOBBER_FLAG = '-c'
 ci: xcore_interpreters_build \
- xcore_interpreters_unit_test \
- xcore_interpreters_dist_test
+ xcore_interpreters_unit_test
  
 #**************************
 # development targets
