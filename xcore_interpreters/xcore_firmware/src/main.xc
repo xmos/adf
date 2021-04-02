@@ -1,5 +1,15 @@
 // Copyright 2021 XMOS LIMITED. This Software is subject to the terms of the
 // XMOS Public License: Version 1
+
+// Workaround the "-D_clock_defined" workaround for tools bug id=18509
+//   that is implemented in the CMakeLists.txt.
+//   .xc files that include platform.h will not compile if _clock_defined
+//   is defined.  The undef must occur before including platform.h or other
+//   plaform specific headers.
+#ifdef _clock_defined
+#undef _clock_defined
+#endif
+
 #include <platform.h>
 #include <stdio.h>
 #include <stdlib.h>
