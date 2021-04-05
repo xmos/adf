@@ -27,7 +27,9 @@ xcore_interpreters_dist:
 .PHONY: ci 
 ci: CLOBBER_FLAG = '-c'
 ci: xcore_interpreters_build \
- xcore_interpreters_unit_test
+ xcore_interpreters_unit_test \
+ xcore_interpreters_dist
+
  
 #**************************
 # development targets
