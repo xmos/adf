@@ -24,7 +24,6 @@ setuptools.setup(
     extras_require={
         "test": [
             "pytest>=5.2.0",
-            "pytest-xdist>=1.30.0",
         ],
     },
     package_data={"": LIB_XCORE_INTERPRETERS},
