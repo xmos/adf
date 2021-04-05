@@ -70,6 +70,8 @@ target_sources(xcore_interpreter_xscope
   "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc"
 )
+# workaround for tools bug id=18509
+set_property(SOURCE "${PROJECT_SOURCE_DIR}/src/main.xc" PROPERTY COMPILE_FLAGS -U_clock_defined)
 
 target_sources(xcore_interpreter_cmdline
   PRIVATE ${XCORE_INTERPRETER_SOURCES}
