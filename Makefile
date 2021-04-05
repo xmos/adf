@@ -20,7 +20,7 @@ xcore_interpreters_dist:
 	cd xcore_interpreters && bash build_dist.sh
 
 #**************************
-# ALL tests target
+# ALL build target
 #**************************
 
 .PHONY: build
@@ -39,11 +39,8 @@ test: xcore_interpreters_unit_test
 
 .PHONY: ci 
 ci: CLOBBER_FLAG = '-c'
-ci: build \
- test \
- xcore_interpreters_dist
+ci: build test xcore_interpreters_dist
 
- 
 #**************************
 # development targets
 #**************************
@@ -73,11 +70,11 @@ help:
 	$(info   build                         Build xcore_interpreters)
 	$(info   develop                       Update submodules and build xcore_interpreters)
 	$(info   clobber                       Update submodules, then clean and rebuild xcore_interpreters)
-	$(info   test                          Run all tests (requires xcore_interpreters[test]))
-	$(info   ci                            Run continuous integration build and test (requires xcore_interpreters[test]))
+	$(info   test                          Run all tests (requires xcore_interpreters[test] package))
+	$(info   ci                            Run continuous integration build and test (requires xcore_interpreters[test] package))
 	$(info )
 	$(info xcore_interpreter targets:)
 	$(info   xcore_interpreters_build      Run xcore_interpreters build)
-	$(info   xcore_interpreters_unit_test  Run xcore_interpreters unit tests (requires xcore_interpreters[test]))
-	$(info   xcore_interpreters_dist       Build xcore_interpreters distribution (requires xcore_interpreters[test]))
+	$(info   xcore_interpreters_unit_test  Run xcore_interpreters unit tests (requires xcore_interpreters[test] package))
+	$(info   xcore_interpreters_dist       Build xcore_interpreters distribution (requires xcore_interpreters[test] package))
 	$(info )
