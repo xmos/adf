@@ -47,8 +47,11 @@ pipeline {
                     userRemoteConfigs: [[credentialsId: 'xmos-bot',
                                          url: 'git@github.com:xmos/ai_deployment_framework']]
                 ])
-                // create venv
-                sh "conda env create -q -p adf_venv -f environment.yml"
+                // create venv and install pip packages
+                sh """conda env create -q -p adf_venv -f environment.yml &&
+                      . activate ./adf_venv &&
+                      pip install -e "./xcore_interpreters[test]" &&
+                      . deactivate"""
                 // Install xmos tools version
                 sh "/XMOS/get_tools.py " + params.TOOLS_VERSION
             }
