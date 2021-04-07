@@ -76,11 +76,11 @@ Then inside the container
 ```shell
 # setup environment
 conda env create -p adf_venv -f environment.yml
-/XMOS/get_tools.py 15.0.1
+/XMOS/get_tools.py 15.0.5
 conda activate ./adf_venv
 pip install -e "./xcore_interpreters[test]"
 # activate tools (each new shell)
-module load tools/15.0.1
+module load tools/15.0.5
 # build all and run tests
 make ci
 ```
