@@ -97,9 +97,8 @@ ModelRunnerStatus model_runner_init(uint8_t *model_content,
   }
 
   // Build an interpreter to run the model with
-  interpreter = new (interpreter_buffer)
-      interpreter_t(model, *resolver, tensor_arena, tensor_arena_size, reporter,
-                    true, profiler);
+  interpreter = new (interpreter_buffer) interpreter_t(
+      model, *resolver, tensor_arena, tensor_arena_size, reporter, profiler);
 
   // Allocate memory from the tensor_arena for the model's tensors.
   TfLiteStatus allocate_tensors_status = interpreter->AllocateTensors();
