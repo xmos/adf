@@ -165,9 +165,7 @@ def get_devices():
     """
     Get an array of all connected xcore devices
     """
-    p = subprocess.Popen(
-        ["xrun", "-l"], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-    )
+    p = subprocess.Popen(["xrun", "-l"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, err = p.communicate()
     if p.returncode == 0:
         devices = []

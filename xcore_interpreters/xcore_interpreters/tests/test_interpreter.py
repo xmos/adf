@@ -44,7 +44,8 @@ def test_tensor_arena_size():
 
     overly_big_tensor_arena_size = 5000
     with XCOREInterpreter(
-        model_content=model_content, max_tensor_arena_size=overly_big_tensor_arena_size,
+        model_content=model_content,
+        max_tensor_arena_size=overly_big_tensor_arena_size,
     ) as interpreter:
         assert interpreter
         assert interpreter.tensor_arena_size < overly_big_tensor_arena_size
