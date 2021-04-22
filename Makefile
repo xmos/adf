@@ -34,14 +34,6 @@ build: xcore_interpreters_build
 test: xcore_interpreters_unit_test
 
 #**************************
-# ci target
-#**************************
-
-.PHONY: ci 
-ci: CLOBBER_FLAG = '-c'
-ci: build test xcore_interpreters_dist
-
-#**************************
 # development targets
 #**************************
 
@@ -71,7 +63,6 @@ help:
 	$(info   develop                       Update submodules and build xcore_interpreters)
 	$(info   clobber                       Update submodules, then clean and rebuild xcore_interpreters)
 	$(info   test                          Run all tests (requires xcore_interpreters[test] package))
-	$(info   ci                            Run continuous integration build and test (requires xcore_interpreters[test] package))
 	$(info )
 	$(info xcore_interpreter targets:)
 	$(info   xcore_interpreters_build      Run xcore_interpreters build)

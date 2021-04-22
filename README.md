@@ -82,5 +82,5 @@ pip install -e "./xcore_interpreters[test]"
 # activate tools (each new shell)
 module load tools/15.0.5
 # build all and run tests
-make ci
+make build test
 ```
