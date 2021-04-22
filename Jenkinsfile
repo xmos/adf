@@ -48,8 +48,8 @@ pipeline {
                                          url: 'git@github.com:xmos/ai_deployment_framework']]
                 ])
                 // create venv and install pip packages
-                sh "conda env create -q -p adf_venv -f environment.yml"
-                sh """ activate ./adf_venv &&
+                sh "conda env create -q -p ./adf_venv -f environment.yml"
+                sh """. activate ./adf_venv &&
                       pip install -e "./xcore_interpreters[test]"
                 """
                 // Install xmos tools version
