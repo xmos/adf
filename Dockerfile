@@ -13,14 +13,18 @@ RUN chmod -R 777 /opt/conda \
     && conda init \
     && conda config --set auto_activate_base false
 
-# install tools lib dependencies
+# install clang
 RUN apt-get update && apt-get install -y \
-    libncurses5 libncurses5-dev \
-    tcl environment-modules \
-    && apt-get clean autoclean
-
-# install compiler
-RUN apt-get install -y build-essential
+    gnupg lsb-release software-properties-common
+ADD https://apt.llvm.org/llvm.sh /tmp/
+ARG clang_version=12
+RUN cd /tmp \
+    && chmod +x llvm.sh \
+    && ./llvm.sh $clang_version
+RUN ln -s /usr/bin/clang-$clang_version /usr/bin/clang \
+    && ln -s /usr/bin/clang++-$clang_version /usr/bin/clang++ \
+    && ln -s /usr/bin/clang /usr/bin/cc \
+    && ln -s /usr/bin/clang++ /usr/bin/c++
 
 # install get_tools.py script
 #   requires connection to XMOS network at build and run time
