@@ -6,10 +6,12 @@ FROM continuumio/miniconda3:4.8.2
 #  - conda setup
 #  - xmos tools setup
 
-# fix conda perms
+# fix conda perms and config
 RUN chmod -R 777 /opt/conda \
     && mkdir -p /.conda \
-    && chmod -R 777 /.conda
+    && chmod -R 777 /.conda \
+    && conda init \
+    && conda config --set auto_activate_base false
 
 # install tools lib dependencies
 RUN apt-get update && apt-get install -y \
