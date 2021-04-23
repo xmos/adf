@@ -13,6 +13,12 @@ RUN chmod -R 777 /opt/conda \
     && conda init \
     && conda config --set auto_activate_base false
 
+# install tools lib dependencies
+RUN apt-get update && apt-get install -y \
+    libncurses5 libncurses5-dev \
+    tcl environment-modules \
+    && apt-get clean autoclean
+
 # install clang
 RUN apt-get update && apt-get install -y \
     gnupg lsb-release software-properties-common
