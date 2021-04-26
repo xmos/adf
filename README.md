@@ -9,11 +9,11 @@ Installation
 ------------
 
 Some dependent libraries are included as git submodules.
-These can be obtained by cloning this repository with the following command:
+These can be obtained by cloning this repository with the following commands:
 ```shell
 git clone git@github.com:xmos/adf.git
 cd adf
-git submodule update --init
+make submodule_update
 ```
 
 Install at least version 15 of the XMOS tools from your preferred location and activate it by sourcing `SetEnv` in the installation root.
@@ -82,5 +82,5 @@ pip install -e "./xcore_interpreters[test]"
 # activate tools (each new shell)
 module load tools/15.0.5
 # build all and run tests
-make ci
+make build test
 ```
