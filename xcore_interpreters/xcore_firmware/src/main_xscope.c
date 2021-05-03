@@ -110,6 +110,7 @@ void xscope_data_recv(void *data, size_t size) {
                   MAX_MODEL_CONTENT_SIZE);
         send_error("Model exceeds maximum size\0");
       }
+      xscope_int(RECV_ACK, 0);
       state = RecvModel;
       break;
     case RecvModel:

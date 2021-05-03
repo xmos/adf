@@ -338,7 +338,13 @@ class XCOREDeviceEndpoint(object):
     def set_model(self, model_content, timeout=5):
         # send the model
         size = len(model_content)
-        self.publish(f"SET_MODEL {size}\0".encode())
+        _publish_blob_chunk_ready = False
+        try:
+            self.publish(f"SET_MODEL {size}\0".encode())
+            self._wait_for("_publish_blob_chunk_ready", timeout)
+        except TimeoutError:
+            raise DeviceTimeoutError("SET_MODEL timeout")
+
         self._send_blob(model_content)
 
         # call init and wait
@@ -413,8 +419,12 @@ class XCOREDeviceServer(object):
         ep = XCOREDeviceEndpoint()
         ep.connect(port=port)
         logging.debug(f"Pinging port: {port}")
-        ping_succeeded = ep.ping_device(timeout)
-        ep.disconnect()
+
+        ping_succeeded = False
+        try:
+            ping_succeeded = ep.ping_device(timeout)
+        finally:
+            ep.disconnect()
 
         return ping_succeeded
 
@@ -516,12 +526,12 @@ class XCOREDeviceServer(object):
                             )
                         elif cached_device["in_use"] == False:
                             # ensure device is responding
-                            ping_succeeded = XCOREDeviceServer._ping_device(
-                                cached_device["xscope_port"], timeout=5
-                            )
-                            if ping_succeeded:
+                            try:
+                                ping_succeeded = XCOREDeviceServer._ping_device(
+                                    cached_device["xscope_port"], timeout=5
+                                )
                                 logging.debug("Ping succeeded")
-                            else:
+                            except:
                                 logging.debug("Ping failed")
                                 # device did not respond so reset it
                                 cached_device = XCOREDeviceServer._reset_device_use(
