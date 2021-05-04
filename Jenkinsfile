@@ -76,8 +76,6 @@ pipeline {
         }
         stage("Test") {
             steps {
-                // below is how we can activate the tools, NOTE: xTIMEcomposer -> XTC at tools 15.0.5
-                // sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv && // 
                 sh ". activate ./adf_venv && make test"
                 // Any call to pytest can be given the "--junitxml SOMETHING_junit.xml" option
                 // This step collects these files for display in Jenkins UI
