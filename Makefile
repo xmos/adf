@@ -35,6 +35,11 @@ test: xcore_interpreters_unit_test
 submodule_update:
 	git submodule update --init --recursive
 
+.PHONY: clean
+clean:
+	rm -rf xcore_interpreters/python_bindings/build
+	rm -rf xcore_interpreters/xcore_firmware/build
+
 .PHONY: help
 help:
 	@:  # This silences the "Nothing to be done for 'help'" output
@@ -44,6 +49,7 @@ help:
 	$(info primary targets:)
 	$(info   build                         Build xcore_interpreters)
 	$(info   test                          Run all tests (requires xcore_interpreters[test] package))
+	$(info   clean                         Clean all build artifacts)
 	$(info )
 	$(info xcore_interpreter targets:)
 	$(info   xcore_interpreters_build      Run xcore_interpreters build)

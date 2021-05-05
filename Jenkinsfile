@@ -69,7 +69,8 @@ pipeline {
                 // sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv && //
                 sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv &&
                       . activate ./adf_venv &&
-                      make build CLOBBER_FLAG='-c'
+                      make clean &&
+                      make build
                 """
                 sh ". activate ./adf_venv && make xcore_interpreters_dist"
             }
