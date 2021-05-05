@@ -28,7 +28,7 @@ build: xcore_interpreters_build
 test: xcore_interpreters_unit_test
 
 #**************************
-# other targets targets
+# other targets
 #**************************
 
 .PHONY: submodule_update
