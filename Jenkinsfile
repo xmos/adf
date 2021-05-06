@@ -11,7 +11,7 @@ pipeline {
     parameters { // Available to modify on the job page within Jenkins if starting a build
         string( // use to try different tools versions
             name: 'TOOLS_VERSION',
-            defaultValue: '15.0.5',
+            defaultValue: '15.0.6',
             description: 'The tools version to build with (check /projects/tools/ReleasesTools/)'
         )
         booleanParam( // use to check results of rolling all conda deps forward
@@ -48,10 +48,10 @@ pipeline {
                                          url: 'git@github.com:xmos/ai_deployment_framework']]
                 ])
                 // create venv and install pip packages
-                sh """conda env create -q -p adf_venv -f environment.yml &&
-                      . activate ./adf_venv &&
-                      pip install -e "./xcore_interpreters[test]" &&
-                      . deactivate"""
+                sh "conda env create -q -p ./adf_venv -f environment.yml"
+                sh """. activate ./adf_venv &&
+                      pip install -e "./xcore_interpreters[test]"
+                """
                 // Install xmos tools version
                 sh "/XMOS/get_tools.py " + params.TOOLS_VERSION
             }
@@ -63,14 +63,21 @@ pipeline {
                 sh "conda update --all -y -q -p adf_venv"
             }
         }
-        stage("Build/Test") {
-            // due to the Makefile, we've combined build and test stages
+        stage("Build") {
             steps {
-                // below is how we can activate the tools, NOTE: xTIMEcomposer -> XTC at tools 15.0.5
-                // sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv && // 
+                // below is how we can activate the tools, NOTE: xTIMEcomposer -> XTC at tools 15.0.5 and later
+                // sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv && //
                 sh """. /XMOS/tools/${params.TOOLS_VERSION}/XMOS/XTC/${params.TOOLS_VERSION}/SetEnv &&
                       . activate ./adf_venv &&
-                      make ci"""
+                      make clean &&
+                      make build
+                """
+                sh ". activate ./adf_venv && make xcore_interpreters_dist"
+            }
+        }
+        stage("Test") {
+            steps {
+                sh ". activate ./adf_venv && make test"
                 // Any call to pytest can be given the "--junitxml SOMETHING_junit.xml" option
                 // This step collects these files for display in Jenkins UI
                 junit "**/*_junit.xml"
