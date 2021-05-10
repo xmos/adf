@@ -44,40 +44,49 @@ set(BUILD_FLAGS
   "-Os"
 )
 
-add_executable(xcore_interpreter_xscope)
-add_executable(xcore_interpreter_cmdline)
-
-target_compile_options(xcore_interpreter_xscope PRIVATE ${BUILD_FLAGS})
-target_compile_options(xcore_interpreter_cmdline PRIVATE ${BUILD_FLAGS})
-
-target_link_options(xcore_interpreter_xscope PRIVATE ${BUILD_FLAGS} -lquadspi -w)
-target_link_options(xcore_interpreter_cmdline PRIVATE ${BUILD_FLAGS} -lquadspi -w -fcmdline-buffer-bytes=2048)
-
-set_target_properties(xcore_interpreter_xscope PROPERTIES OUTPUT_NAME xcore_interpreter_xscope.xe)
-set_target_properties(xcore_interpreter_cmdline PROPERTIES OUTPUT_NAME xcore_interpreter_cmdline.xe)
-
 #**********************
-# targets
+# interpreter library
 #**********************
 include("${PROJECT_SOURCE_DIR}/../../ai_deployment_framework.cmake")
 
-set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc" PROPERTIES LANGUAGE C)
+add_library(libxcore_interpreters OBJECT ${XCORE_INTERPRETER_SOURCES})
+
+target_compile_options(libxcore_interpreters PRIVATE ${BUILD_FLAGS})
+set_target_properties(libxcore_interpreters PROPERTIES PREFIX "")
+
+target_include_directories(libxcore_interpreters
+  PRIVATE ${XCORE_INTERPRETER_INCLUDES}
+)
+
+#**********************
+# firmware targets
+#**********************
+add_executable(xcore_interpreter_xscope)
+target_compile_options(xcore_interpreter_xscope PRIVATE ${BUILD_FLAGS})
+target_link_libraries(xcore_interpreter_xscope PRIVATE libxcore_interpreters)
+target_link_options(xcore_interpreter_xscope PRIVATE ${BUILD_FLAGS} -lquadspi -w)
+set_target_properties(xcore_interpreter_xscope PROPERTIES OUTPUT_NAME xcore_interpreter_xscope.xe)
+
+add_executable(xcore_interpreter_cmdline)
+target_compile_options(xcore_interpreter_cmdline PRIVATE ${BUILD_FLAGS})
+target_link_libraries(xcore_interpreter_cmdline PRIVATE libxcore_interpreters)
+target_link_options(xcore_interpreter_cmdline PRIVATE ${BUILD_FLAGS} -lquadspi -w -fcmdline-buffer-bytes=2048)
+set_target_properties(xcore_interpreter_cmdline PROPERTIES OUTPUT_NAME xcore_interpreter_cmdline.xe)
 
 target_sources(xcore_interpreter_xscope
-  PRIVATE ${XCORE_INTERPRETER_SOURCES}
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/main_xscope.c"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/main_xscope.c"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc"
 )
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/main.xc" PROPERTIES LANGUAGE C)
 # workaround for tools bug id=18509
 set_property(SOURCE "${PROJECT_SOURCE_DIR}/src/main.xc" PROPERTY COMPILE_FLAGS -U_clock_defined)
 
 target_sources(xcore_interpreter_cmdline
-  PRIVATE ${XCORE_INTERPRETER_SOURCES}
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/main_cmdline.c"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/main_cmdline.c"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/model_runner.cc"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/test_ops_resolver.cc"
 )
 
 target_include_directories(xcore_interpreter_xscope

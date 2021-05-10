@@ -216,7 +216,6 @@ class XCOREInterpreter:
         self._is_allocated = False
         self._op_states = []
 
-    def __enter__(self) -> "XCOREInterpreter":
         self.obj = lib.new_interpreter()
         status = lib.initialize(
             self.obj,
@@ -227,10 +226,11 @@ class XCOREInterpreter:
         if XCOREInterpreterStatus(status) is XCOREInterpreterStatus.ERROR:
             raise RuntimeError("Unable to initialize interpreter")
 
+    def __enter__(self) -> "XCOREInterpreter":
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback) -> None:
-        lib.delete_interpreter(self.obj)
+        self.close()
 
     def _verify_allocated(self) -> None:
         if not self._is_allocated:
@@ -245,6 +245,11 @@ class XCOREInterpreter:
     def tensor_arena_size(self):
         self._verify_allocated()
         return lib.arena_used_bytes(self.obj)
+
+    def close(self) -> None:
+        if self.obj:
+            lib.delete_interpreter(self.obj)
+            self.obj = None
 
     def get_allocations(self):
         self._verify_allocated()
