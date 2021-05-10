@@ -6,8 +6,8 @@
 
 .PHONY: xcore_interpreters_build
 xcore_interpreters_build:
-	cd xcore_interpreters/host_library && bash build.sh $(CLOBBER_FLAG)
-	cd xcore_interpreters/xcore_firmware && bash build.sh $(CLOBBER_FLAG)
+	cd xcore_interpreters/host_library && bash build.sh
+	cd xcore_interpreters/xcore_firmware && bash build.sh
 
 .PHONY: xcore_interpreters_unit_test
 xcore_interpreters_unit_test:
