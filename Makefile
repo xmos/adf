@@ -1,5 +1,3 @@
-CLOBBER_FLAG := '-c'
-
 .DEFAULT_GOAL := help
 
 #**************************
@@ -20,37 +18,27 @@ xcore_interpreters_dist:
 	cd xcore_interpreters && bash build_dist.sh
 
 #**************************
-# ALL build target
+# default build and test targets
 #**************************
 
 .PHONY: build
 build: xcore_interpreters_build
 
-#**************************
-# ALL tests target
-#**************************
-
 .PHONY: test
 test: xcore_interpreters_unit_test
 
 #**************************
-# development targets
+# other targets
 #**************************
 
 .PHONY: submodule_update
-submodule_update: 
+submodule_update:
 	git submodule update --init --recursive
 
-.PHONY: _develop
-_develop: submodule_update build
-
-.PHONY: develop
-develop: CLOBBER_FLAG=''
-develop: _develop
-
-.PHONY: clobber
-clobber: CLOBBER_FLAG='-c'
-clobber: _develop
+.PHONY: clean
+clean:
+	rm -rf xcore_interpreters/python_bindings/build
+	rm -rf xcore_interpreters/xcore_firmware/build
 
 .PHONY: help
 help:
@@ -60,9 +48,8 @@ help:
 	$(info )
 	$(info primary targets:)
 	$(info   build                         Build xcore_interpreters)
-	$(info   develop                       Update submodules and build xcore_interpreters)
-	$(info   clobber                       Update submodules, then clean and rebuild xcore_interpreters)
 	$(info   test                          Run all tests (requires xcore_interpreters[test] package))
+	$(info   clean                         Clean all build artifacts)
 	$(info )
 	$(info xcore_interpreter targets:)
 	$(info   xcore_interpreters_build      Run xcore_interpreters build)
