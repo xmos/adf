@@ -405,7 +405,7 @@ class XCOREInterpreter:
                 tensor_zero_point,
             )
         )
-        scales = np.array(tensor_scale, dtype=np.float)
+        scales = np.array(tensor_scale, dtype=np.float32)
         if len(tensor_scale) == 1:
             scales = scales[0]
 

@@ -4,7 +4,6 @@
 #include "tensorflow/lite/micro/kernels/xcore/xcore_extended_interpreter.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_ops.h"
 #include "tensorflow/lite/micro/recording_micro_allocator.h"
-#include "tensorflow/lite/version.h"
 
 //*****************************************
 //*****************************************

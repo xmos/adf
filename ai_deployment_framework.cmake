@@ -8,8 +8,8 @@ set(GEMMLOWP_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/gemmlowp")
 set(RUY_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/ruy")
 set(FLATBUFFERS_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/flatbuffers/include")
 set(FLATBUFFERS_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/flatbuffers/src")
-set(TENSORFLOW_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tensorflow")
-set(TENSORFLOW_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/tensorflow")
+set(TENSORFLOW_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tflite-micro")
+set(TENSORFLOW_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/tflite-micro")
 
 set(LIB_NN_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/lib_nn")
 set(LIB_NN_ALT_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/lib_nn/lib_nn/api")
@@ -32,6 +32,7 @@ set(TENSORFLOW_LITE_RUNTIME_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_error_reporter.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_interpreter.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_profiler.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_graph.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_utils.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_string.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/simple_memory_allocator.cc"
@@ -42,6 +43,8 @@ set(TENSORFLOW_LITE_RUNTIME_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/kernel_util.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/quantize_common.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/schema/schema_utils.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/micro_graph.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/flatbuffer_utils.cc"
   )
 
 if (X86)
@@ -65,6 +68,7 @@ endif ()
 set(TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/activations.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/add.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/add_n.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/arg_min_max.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/ceil.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/circular_buffer.cc"
@@ -72,10 +76,13 @@ set(TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/concatenation.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/conv.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/conv_common.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/cumsum.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/depthwise_conv.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/depthwise_conv_common.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/dequantize.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/detection_postprocess.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/elementwise.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/elu.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/floor.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/fully_connected.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/l2norm.cc"
@@ -98,6 +105,7 @@ set(TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/softmax_common.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/split.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/split_v.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/squeeze.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/strided_slice.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/sub.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/svdf.cc"
@@ -105,6 +113,21 @@ set(TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/tanh.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/unpack.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/hard_swish.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/floor_div.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/floor_mod.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/l2_pool_2d.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/leaky_relu.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/depth_to_space.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/transpose_conv.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/resize_bilinear.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/batch_to_space_nd.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/space_to_batch_nd.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/transpose.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/pooling_common.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/expand_dims.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/space_to_depth.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/circular_buffer.cc"
+  # "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/circular_buffer_flexbuffers_generated_data.cc"
 )
 
 #*************************************************

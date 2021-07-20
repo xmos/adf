@@ -6,7 +6,6 @@
 #include "tensorflow/lite/micro/kernels/xcore/xcore_interpreter.h"
 #include "tensorflow/lite/micro/kernels/xcore/xcore_profiler.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
-#include "tensorflow/lite/version.h"
 #include "test_ops_resolver.h"
 
 // shorthand typedefs

@@ -18,3 +18,6 @@
 	path = tensorflow
 	url = git@github.com:xmos/tensorflow.git
 	ignore = dirty
+[submodule "tflite-micro"]
+	path = tflite-micro
+	url = git@github.com:xmos/tflite-micro.git
