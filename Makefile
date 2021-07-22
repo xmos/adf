@@ -37,8 +37,10 @@ submodule_update:
 
 .PHONY: clean
 clean:
-	rm -rf xcore_interpreters/python_bindings/build
+	rm -rf xcore_interpreters/host_library/build
 	rm -rf xcore_interpreters/xcore_firmware/build
+	rm -rf xcore_interpreters/xcore_firmware/bin
+	rm -rf xcore_interpreters/xcore_interpreters/libs
 
 .PHONY: help
 help:
