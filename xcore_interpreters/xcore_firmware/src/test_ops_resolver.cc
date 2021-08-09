@@ -111,7 +111,6 @@ TestOpsResolver::TestOpsResolver() {
             tflite::ops::micro::xcore::Register_Pad());
   AddCustom(tflite::ops::micro::xcore::Ringbuffer_OpCode,
             tflite::ops::micro::xcore::Register_Ringbuffer());
-}          
 }
 
 }  // namespace tflite
