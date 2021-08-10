@@ -109,6 +109,8 @@ TestOpsResolver::TestOpsResolver() {
             tflite::ops::micro::xcore::Register_MaxPool2D());
   AddCustom(tflite::ops::micro::xcore::Pad_OpCode,
             tflite::ops::micro::xcore::Register_Pad());
+  AddCustom(tflite::ops::micro::xcore::Ringbuffer_OpCode,
+            tflite::ops::micro::xcore::Register_Ringbuffer());
 }
 
 }  // namespace tflite
