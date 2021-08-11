@@ -101,6 +101,8 @@ TestOpsResolver::TestOpsResolver() {
             tflite::ops::micro::xcore::Register_Conv2D_Depthwise());
   AddCustom(tflite::ops::micro::xcore::Conv2D_Shallow_OpCode,
             tflite::ops::micro::xcore::Register_Conv2D_Shallow());
+  AddCustom(tflite::ops::micro::xcore::Conv2D_V2_OpCode,
+            tflite::ops::micro::xcore::Register_Conv2D_V2());
   AddCustom(tflite::ops::micro::xcore::FullyConnected_8_OpCode,
             tflite::ops::micro::xcore::Register_FullyConnected_8());
   AddCustom(tflite::ops::micro::xcore::Lookup_8_OpCode,
