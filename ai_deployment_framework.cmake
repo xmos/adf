@@ -140,6 +140,7 @@ set(TENSORFLOW_LITE_XCORE_OPERATOR_SOURCES
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_bconv2d.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_bsign.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_conv2d.cc"
+  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_conv2d_v2.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_custom_options.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_dispatcher.cc"
   "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite/micro/kernels/xcore/xcore_fully_connected.cc"
@@ -159,6 +160,7 @@ set(TENSORFLOW_LITE_XCORE_OPERATOR_SOURCES
 # lib_nn sources
 #**********************
 file(GLOB_RECURSE LIB_NN_SOURCES_C "${LIB_NN_SOURCE_DIR}/lib_nn/src/*.c")
+file(GLOB_RECURSE LIB_NN_SOURCES_CPP "${LIB_NN_SOURCE_DIR}/lib_nn/src/*.cpp")
 file(GLOB_RECURSE LIB_NN_SOURCES_ASM "${LIB_NN_SOURCE_DIR}/lib_nn/src/asm/*.S")
 
 #**************************************
@@ -168,6 +170,7 @@ file(GLOB_RECURSE LIB_NN_SOURCES_ASM "${LIB_NN_SOURCE_DIR}/lib_nn/src/asm/*.S")
 if (X86)
   set(XCORE_INTERPRETER_SOURCES
       ${LIB_NN_SOURCES_C}
+      ${LIB_NN_SOURCES_CPP}
       ${TENSORFLOW_LITE_RUNTIME_SOURCES}
       ${TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES}
       ${TENSORFLOW_LITE_XCORE_OPERATOR_SOURCES}
@@ -175,6 +178,7 @@ if (X86)
 else ()
   set(XCORE_INTERPRETER_SOURCES
     ${LIB_NN_SOURCES_C}
+    ${LIB_NN_SOURCES_CPP}
     ${TENSORFLOW_LITE_RUNTIME_SOURCES}
     ${TENSORFLOW_LITE_REFERENCE_OPERATOR_SOURCES}
     ${TENSORFLOW_LITE_XCORE_OPERATOR_SOURCES}
